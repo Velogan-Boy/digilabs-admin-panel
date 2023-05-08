@@ -21,6 +21,14 @@ exports.createUser = async (req, res) => {
    try {
       const { name, email } = req.body;
 
+      const userExists = await Users.findOne({ email });
+
+      if (userExists) {
+         if (req.originalUrl.includes('/api')) return res.status(400).json({ msg: 'User already exists' });
+
+         return res.render('pages/filler', { msg: 'User already exists' });
+      }
+
       const user = await Users.create({ name, email });
 
       if (req.originalUrl.includes('/api')) return res.status(200).json({ user });
