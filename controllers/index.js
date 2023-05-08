@@ -36,6 +36,8 @@ exports.createUser = async (req, res) => {
       res.render('pages/filler', { msg: 'User created successfully' });
    } catch (err) {
       console.log(err);
+
+      res.status(500).send('Server error');
    }
 };
 
